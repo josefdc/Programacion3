@@ -1,0 +1,10 @@
+%hay_conexion(origen,destino,costo).
+hay_conexion(v,e,16).
+hay_conexion(v,c,13).
+hay_conexion(e,s,12).
+hay_conexion(c,e,4).
+hay_conexion(c,r,14).
+hay_conexion(s,c,9).
+hay_conexion(s,w,20).
+hay_conexion(r,s,7).
+hay_conexion(r,w,4).
