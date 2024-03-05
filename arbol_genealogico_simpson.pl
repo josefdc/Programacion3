@@ -38,26 +38,26 @@ es_hombre(clancy).
 abuelo(Abuelo, Nieto) :-
     es_hombre(Abuelo),
     (es_padre(Padre, Nieto), es_padre(Abuelo, Padre) ;
-     es_madre(Madre, Nieto), es_padre(Abuelo, Madre)).
+    es_madre(Madre, Nieto), es_padre(Abuelo, Madre)).
 
 % Regla para determinar si alguien es abuela
 abuela(Abuela, Nieto) :-
     es_mujer(Abuela),
     (es_madre(Madre, Nieto), es_madre(Abuela, Madre) ;
-     es_padre(Padre, Nieto), es_madre(Abuela, Padre)).
+    es_padre(Padre, Nieto), es_madre(Abuela, Padre)).
 
 % Reglas para determinar si dos personas son hermanos
 hermano_de(Hermano_a, Hermano_b) :-
     es_hombre(Hermano_a),
     Hermano_a \= Hermano_b,
     (es_padre(Padre, Hermano_a), es_padre(Padre, Hermano_b) ;
-     es_madre(Madre, Hermano_a), es_madre(Madre, Hermano_b)).
+    es_madre(Madre, Hermano_a), es_madre(Madre, Hermano_b)).
 
 hermana_de(Hermana_a, Hermana_b) :-
     es_mujer(Hermana_a),
     Hermana_a \= Hermana_b,
     (es_padre(Padre, Hermana_a), es_padre(Padre, Hermana_b) ;
-     es_madre(Madre, Hermana_a), es_madre(Madre, Hermana_b)).
+    es_madre(Madre, Hermana_a), es_madre(Madre, Hermana_b)).
 
 % Regla para determinar si alguien es tío o tía
 tio_de(Tio, Sobrino) :-
