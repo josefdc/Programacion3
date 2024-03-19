@@ -1,32 +1,63 @@
-%preguntas a responder
+% Hechos de conexiones con costos
 
-%1.Existe una conexion entre Saskatoo y Vancouver?
-%2. Con que nodos esta conectado Regina y cual es el costo de cada conexion?
+conectado_con(s, v1, 16).
+conectado_con(s, v2, 13).
+conectado_con(v1, v3, 12).
+conectado_con(v1, v2, 4).
+conectado_con(v2, v1, 4).
+conectado_con(v2, v4, 14).
+conectado_con(v3, v4, 7).
+conectado_con(v3, t, 20).
+conectado_con(v4, v3, 9).
+conectado_con(v4, t, 4).
 
-%hechos de conexiones, con precios
+% Regla para encontrar conexión con una ciudad intermedia.
+% Esto asume que el predicado conectado_con/3 ya está definido como se mostró antes.
 
-conectado_con(vancouver,edmonton,16).
-conectado_con(vancouver,calgary,13).
-conectado_con(edmonton,saskaton,12).
-conectado_con(saskatoon,winnipeg,20).
-conectado_con(saskatoon,calgary,9).
-conectado_con(calgary,regina,14).
-conectado_con(regina,winnipeg,4).
-conectado_con(regina,saskatoon).
+conexion_una_intermedia(Inicio, Intermedio, Fin, CostoTotal) :-
+    conectado_con(Inicio, Intermedio, Costo1),   % Hay conexión de 'Inicio' a 'Intermedio'.
+    conectado_con(Intermedio, Fin, Costo2),       % Hay conexión de 'Intermedio' a 'Fin'.
+    \+ (conectado_con(Inicio, Fin, _)),           % No hay conexión directa entre 'Inicio' y 'Fin'.
+    CostoTotal is Costo1 + Costo2.                % 'CostoTotal' es la suma de 'Costo1' y 'Costo2'.
+
+% Regla base para una conexión directa sin ciudades intermedias.
+conexion(Inicio, Fin, Costo) :-
+    conectado_con(Inicio, Fin, Costo).
+
+% Regla recursiva para encontrar una conexión con ciudades intermedias.
+conexion(Inicio, Fin, CostoTotal) :-
+    conectado_con(Inicio, Intermedio, Costo1),
+    Intermedio \= Fin,
+    conexion(Intermedio, Fin, Costo2),
+    CostoTotal is Costo1 + Costo2.
+
+tiene_aristas(Nodo) :-
+    (conectado_con(Nodo, _, _) ; conectado_con(_, Nodo, _)).
+
+costo_via_intermedio(X, Y, Z, CostoTotal) :-
+    conectado_con(X, Y, Costo1),
+    conectado_con(Y, Z, Costo2),
+    CostoTotal is Costo1 + Costo2.
+
+%------------------------------------------------------------------------
+
+%Ahora usando listas, en vez de declarar los hechos
+
+conectado_con2([s, v1, 16]).
+conectado_con2([s, v2, 13]).
+conectado_con2([v1, v3, 12]).
+conectado_con2([v1, v2, 4]).
+conectado_con2([v2, v1, 4]).
+conectado_con2([v2, v4, 14]).
+conectado_con2([v3, v4, 7]).
+conectado_con2([v3, t, 20]).
+conectado_con2([v4, v3, 9]).
+conectado_con2([v4, t, 4]).
 
 
-%reglas
-$% crear regla para saber si hay conexion, directa y no directa
-
-%1.Existe una conexion entre Saskatoo y Vancouver?
-conectado(X,Y):-conectado_con(X,Y,_).
-
-
-
-%2. Con que nodos esta conectado Regina y cual es el costo de cada conexion?
-conectado_con_regina(X,Y,C):-conectado_con(X,Y,C).
-conectado_con_regina(Y,X,C):-conectado_con(X,Y,C).
-conectado_con_regina(X,regina,C):-conectado_con(X,regina,C).
-conectado_con_regina(regina,X,C):-conectado_con(X,regina,C).
-
-
+%usando listas de listas
+conexion_una_intermedia2(Inicio, Intermedio, Fin, CostoTotal) :-
+    conectado_con2([Inicio, Intermedio, Costo1]),   % Hay conexión de 'Inicio' a 'Intermedio'.
+    conectado_con2([Intermedio, Fin, Costo2]),       % Hay conexión de 'Intermedio' a 'Fin'.
+    \+ (conectado_con2([Inicio, Fin, _])),           % No hay conexión directa entre 'Inicio' y 'Fin'.
+    CostoTotal is Costo1 + Costo2.                % 'CostoTotal' es la suma de 'Costo1' y 'Costo2'.
