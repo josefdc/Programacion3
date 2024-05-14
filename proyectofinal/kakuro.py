@@ -19,7 +19,7 @@ def create_kakuro_variables(board, model):
                 variables[(i, j)] = model.NewIntVar(1, 9, f'cell_{i}_{j}')
     return variables
 
-def add_unique_constraints(model, variables, board):
+def add_unique_constraints(model, variables, board): 
     """
     Añade restricciones al modelo para que los números no se repitan en filas y columnas.
 
@@ -90,23 +90,22 @@ def print_board(board):
         board (list of list of int/tuple): El tablero de Kakuro.
     """
     for row in board:
-        print(" ".join(str(cell) if isinstance(cell, int) else "." if cell == 0 else "*" for cell in row))
+        print(" ".join(str(cell) if isinstance(cell, int) else "." if cell == 1 else "" for cell in row))
 
-# Tablero de Kakuro basado en la imagen proporcionada
 # Cada celda es una tupla (suma_fila, suma_columna)
 # -1 indica que no hay suma en esa dirección
 # 0 en casillas blancas indica que deben ser llenadas
 
 board = [
-    [(-1, -1), (-1, -1), (-1, 39), (-1, 22), (-1, -1), (-1, -1), (-1, -1), (-1, 36), (-1, 3)],
-    [(-1, -1), (4, -1), 0, 0, (-1, -1), (-1, -1), (4, -1), 0, 0],
-    [(-1, -1), (12, -1), 0, 0, (-1, -1), (-1, -1), (6, 22), 0, 0],
-    [(-1, -1), (5, 17), 0, 0, (-1, 4), (3, 9), 0, 0, (-1, 3)],
-    [(43, -1), 0, 0, 0, 0, 0, 0, 0, 0],
-    [(37, -1), 0, 0, 0, 0, 0, 0, 0, 0],
-    [(-1, -1), (7, 12), 0, 0, (-1, -1), (4, -1), 0, 0, (-1, -1)],
-    [(4, -1), 0, 0, (-1, -1), (-1, -1), (7, -1), 0, 0, (-1, -1)],
-    [(16, -1), 0, 0, (-1, -1), (-1, -1), (15, -1), 0, 0, (-1, -1)]
+    [(-1, -1), (-1, -1), (-1, -1),(-1, 14), (-1, 42), (-1, -1), (-1, -1), (-1, 3), (-1, 16)],
+    [(-1, -1),(-1, -1), (13, -1), 0, 0, (-1, 29), (9, 13), 0, 0],
+    [(-1, -1), (-1, -1), (32,0), 0, 0,0,0,0,0],
+    [(-1, -1), (0, 12),(-1, 3), (6, -1), 0,0, 0, (-1,17), (-1, 16)],
+    [(4, -1), 0, 0,(34, 13), 0, 0, 0, 0, 0 ],
+    [(23, -1), 0, 0, 0, 0, 0, (16, -1), 0, 0],
+    [(-1, -1), (-1, 3),(24, 5), 0, 0,0, (-1, 3), (-1, -1),(-1, -1)],
+    [(22, -1), 0, 0,0,0,0,0, (-1, -1), (-1, -1)],
+    [(3, -1), 0, 0, (-1, -1), (3, -1),0,0, (-1, -1),(-1, -1)]
 ]
 
 if solve_kakuro(board):
